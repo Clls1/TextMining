@@ -91,7 +91,7 @@ ggplot(prep[1:12,], aes(x=ntopic,y=logLik, color=as.factor(folds))) + xlab("Numb
   geom_point( size=3, shape=21, fill="white", colour="black") + guides(colour=FALSE, aes(x=ntopic,y=logLik, color=as.factor(folds)), colour="black", size=4)
 dev.off()
 
-################# Calculate CTM topics ###############
+################# Calculate CTM and LDA topics ###############
 library(topicmodels)
 k = 10
 SEED = 2010;
