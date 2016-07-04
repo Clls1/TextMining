@@ -3,7 +3,7 @@
 This project was built as part of a master's dissertation.
 The main goal was to perform a sentiment analysis over social media reviews.
 
-To explore data was first made an a part-of-speech analysis and after was aplied a clustering analysis through Correlated topic Model (Blei,2007)
+To explore data was first made a part-of-speech analysis and after was aplied a clustering analysis through Correlated topic Model (Blei,2007)
 After that, all unstructured data was prepared until it was ready for the application of data mining algorithms.
 The data mining algorithms were applied to the DTM matrix using IBM Modeler.
 
