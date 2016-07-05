@@ -44,6 +44,15 @@ tags3 <- tm_map(tags, content_transformer(accommod1))
 tags3 <- tm_map(tags3, content_transformer(accommod2))
 tags3 <- tm_map(tags3, content_transformer(fam))
 
+#Handling negation
+str_negate <- function(x) {
+  x1 <- gsub("(not|n't|without|unlikely to|never|no|nothing|nowhere|noone|none|havent|hasnt|hadnt|cant|couldnt|shouldnt|wont|wouldnt|dont|doesnt|didnt|isnt|arent|aint) \\K", 'NOT_', x, perl=T, ignore.case = TRUE)
+  x2 <- gsubfn('NOT_([a-zA-Z_ ]+)', ~ gsub("\\b(?!(?i:not|n't|never|without|unlikely to))(?=\\w+)", 'NOT_', x, perl=TRUE, ignore.case = TRUE), x1)
+  x2
+}
+tags3 <- tm_map(tags3, content_transformer(str_negate))
+
+
 #Remover stopwords through a personalized list
 padrao1 <- "\\b(experience| year| month| day|lots| bit|lot|things| thing|problems| problem| a|as|about|above|according|accordingly|across|actually|after|afterwards|again|against|aint|all|allow|allows|almost|alone|along|already|also|although|always|am|among|amongst|an|and|another|any|anybody|anyhow|anyone|anything|anyway|anyways|anywhere|apart|appear|are|arent|around|aside|ask|asking|at|available|away|b|be|became|because|become|becomes|becoming|been|before|beforehand|behind|being|believe|below|beside|besides|between|beyond|both|brief|but|by|c|cmon|cs|came|can|cant|cannot|cause|causes|co|com|come|comes|consequently|consider|considering|contain|containing|contains|corresponding|could|couldnt|d|despite|did|didnt|do|does|doesnt|doing|dont|done|down|downwards|during|e|each|edu|eg|eight|either|else|elsewhere|enough|et|etc|even|ever|every|everybody|everyone|everything|everywhere|ex|exactly|example|except|f|fifth|first|five|following|follows|for|former|formerly|forth|four|from|further|furthermore|g|get|gets|getting|given|gives|go|goes|going|gone|got|gotten|h|had|hadnt|happens|hardly|has|hasnt|have|havent|having|he|hes|hello|hence|her|here|heres|hereafter|hereby|herein|hereupon|hers|herself|hi|him|himself|his|hither|how|howbeit|however|i|id|ill|im|ive|ie|if|immediate|in|inasmuch|inc|indeed|indicate|indicated|indicates|inner|inso|instead|into|inward|is|isnt|it|itd|itll|its|itself|j|just|k|keep|keeps|kept|know|knows|known|l|last|least|less|lest|let|lets|ltd|m|mainly|many|may|maybe|me|mean|meanwhile|might|more|moreover|most|mostly|much|must|my|myself|n|name|namely|nd|neither|never|nevertheless|new|next|nine|no|nobody|non|none|noone|nor|normally|not|nothing|novel|now|nowhere|o|obviously|of|off|often|oh|ok|okay|on|once|one|ones|only|onto|or|other|others|otherwise|ought|our|ours|ourselves|out|outside|over|own|p|particular|particularly|per|perhaps|plus|possible|presumably|probably|q|que|quite|qv|r|rather|rd|re|regards|relatively|respectively|right|s|said|same|saw|say|saying|says|second|secondly|see|seeing|seem|seemed|seeming|seems|seen|self|selves|sensible|sent|serious|seriously|seven|several|shall|she|should|shouldnt|since|six|so|some|somebody|somehow|someone|something|sometime|sometimes|somewhat|somewhere|soon|specified|specify|specifying|still|sub|such|sup|sure|t|ts|take|taken|tell|tends|th|than|s|thanx|that|thats|the|their|theirs|them|themselves|then|thence|there|theres|thereafter|thereby|therefore|therein|thereupon|these|they|theyd|theyll|theyre|theyve|think|third|this|thorough|thoroughly|those|though|three|through|throughout|thru|thus|to|together|too|took|toward|towards|tried|tries|truly|try|trying|twice|two|u|un|under|unfortunately|unless|un|until|unto|up|upon|us|use|used|uses|using|usually|uucp|v|value|various|very|via|viz|vs|w|want|wants|was|wasnt|way|we|wed|well|were|weve|welcome|went|werent|what|whats|whatever|when|whence|whenever|where|wheres|whereafter|whereas|whereby|wherein|whereupon|wherever|whether|which|while|whither|who|whos|whoever|whole|whom|whose|why|will|with|within|without|wont|wonder|would|wouldnt|x|y|yes|yet|you|youd|youll|youre|youve|your|yours|yourself|yourselves|z|zero)\\b"
 padrao2 <- "\\b(a's|ain't|aren't|c'mon|c's|can't|couldn't|didn't|doesn't|don't|hadn't|hasn't|haven't|he's|here's|i'd|i'll|i'm|i've|isn't|it'd|it'll|it's|let's|shouldn't|t's|that's|there's|they'd|they'll|they're|they've|wasn't|we'd|we'll|we're|we've|weren't|what's|where's|who's|won't|wouldn't|you'd|you'll|you're|you've|NOT_a|NOT_a's|NOT_about|NOT_above|NOT_according|NOT_accordingly|NOT_across|NOT_actually|NOT_after|NOT_afterwards|NOT_again|NOT_against|NOT_ain't|NOT_all|NOT_allow|NOT_allows|NOT_almost|NOT_alone|NOT_along|NOT_already|NOT_also|NOT_although|NOT_always|NOT_am|NOT_among|NOT_amongst|NOT_an|NOT_and|NOT_another|NOT_any|NOT_anybody|NOT_anyhow|NOT_anyone|NOT_anything|NOT_anyway|NOT_anyways|NOT_anywhere|NOT_apart|NOT_appear|NOT_are|NOT_aren't|NOT_around|NOT_as|NOT_aside|NOT_ask|NOT_asking|NOT_at|NOT_available|NOT_away||NOT_b|NOT_be|NOT_became|NOT_because|NOT_become|NOT_becomes|NOT_becoming|NOT_been|NOT_before|NOT_beforehand|NOT_behind|NOT_being|NOT_believe|NOT_below|NOT_beside|NOT_besides|NOT_between|NOT_beyond|NOT_both|NOT_brief|NOT_but|NOT_by|NOT_c|NOT_c'mon|NOT_c's|NOT_came|NOT_can|NOT_can't|NOT_cannot|NOT_cant|NOT_cause|NOT_causes|NOT_co|NOT_com|NOT_come|NOT_comes|NOT_consequently|NOT_consider|NOT_considering|NOT_contain|NOT_containing|NOT_contains|NOT_corresponding|NOT_could|NOT_couldn't|NOT_d|NOT_despite|NOT_did|NOT_didn't|NOT_do|NOT_does|NOT_doesn't|NOT_doing|NOT_don't|NOT_done|NOT_down|NOT_downwards|NOT_during|NOT_e|NOT_each|NOT_edu|NOT_eg|NOT_eight|NOT_either|NOT_else|NOT_elsewhere|NOT_enough|NOT_et|NOT_etc|NOT_even|NOT_ever|NOT_every|NOT_everybody|NOT_everyone|NOT_everything|NOT_everywhere|NOT_ex|NOT_exactly|NOT_example|NOT_except|NOT_f|NOT_fifth|NOT_first|NOT_five|NOT_following|NOT_follows|NOT_for|NOT_former|NOT_formerly|NOT_forth|NOT_four|NOT_from|NOT_further|NOT_furthermore|NOT_g|NOT_get|NOT_gets|NOT_getting|NOT_given|NOT_gives|NOT_go|NOT_goes|NOT_going|NOT_gone|NOT_got|NOT_gotten|NOT_h|NOT_had|NOT_hadn't|NOT_happens|NOT_hardly|NOT_has|NOT_hasn't|NOT_have|NOT_haven't|NOT_having|NOT_he|NOT_he's|NOT_hello|NOT_hence|NOT_her|NOT_here|NOT_here's|NOT_hereafter|NOT_hereby|NOT_herein|NOT_hereupon|NOT_hers|NOT_herself|NOT_hi|NOT_him|NOT_himself|NOT_his|NOT_hither|NOT_how|NOT_howbeit|NOT_however|NOT_i|NOT_i'd|NOT_i'll|NOT_i'm|NOT_i've|NOT_ie|NOT_if||NOT_immediate|NOT_in|NOT_inasmuch|NOT_inc|NOT_indeed|NOT_indicate|NOT_indicated|NOT_indicates|NOT_inner|NOT_inso|NOT_instead|NOT_into|NOT_inward|NOT_is|NOT_isn't|NOT_it|NOT_it'd|NOT_it'll|NOT_it's|NOT_its|NOT_itself|NOT_j|NOT_just|NOT_k|NOT_keep|NOT_keeps|NOT_kept|NOT_know|NOT_knows|NOT_known|NOT_l|NOT_last|NOT_ly|NOT_least|NOT_less|NOT_lest|NOT_let|NOT_let's|NOT_like|NOT_ltd|NOT_m|NOT_mainly|NOT_many|NOT_may|NOT_maybe|NOT_me|NOT_mean|NOT_meanwhile|NOT_might|NOT_more|NOT_moreover|NOT_most|NOT_mostly|NOT_much|NOT_must|NOT_my|NOT_myself|NOT_n|NOT_name|NOT_namely|NOT_nd|NOT_neither|NOT_never|NOT_nevertheless|NOT_new|NOT_next|NOT_nine|NOT_no|NOT_nobody|NOT_non|NOT_none|NOT_noone|NOT_nor|NOT_normally|NOT_not|NOT_nothing|NOT_novel)\\b"
@@ -82,6 +91,23 @@ novadtm <- novadtm[row_sums(novadtm) > 0,]
 
 freq <- colSums(as.matrix(novadtm))   
 freq[tail(order(freq))]
+
+
+##################################################### Bigram DTM ###########################
+library(slam)
+### bigrams
+library(RWeka)
+BigramTokenizer <- function(x) NGramTokenizer(x, Weka_control(min = 1, max = 3))
+dtmbitfidf <- DocumentTermMatrix(tags4, control = list( tokenize = BigramTokenizer,
+                                                        weighting = function(x)  weightTfIdf(x, normalize = FALSE), 
+                                                        wordLengths=c(3,Inf), 
+                                                        bounds = list(global = c(5,Inf))))
+
+dtmbitfidf <- dtmbitfidf[row_sums(dtmbitfidf) > 0,]
+
+dim(dtmbitfidf)
+
+###############################################################################################
 
 ##wordcloud unigrams
 library(wordcloud)
