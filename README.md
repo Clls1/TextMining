@@ -1,4 +1,4 @@
-# TextMining
+# Text Mining R
 
 This project was built as part of a master's dissertation.
 The main goal was to perform a sentiment analysis over social media reviews.
